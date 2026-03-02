@@ -7,7 +7,7 @@ if (isset($_POST['update'])) {
     $email = $_POST['email'];
 
     $stmt = $pdo->prepare("UPDATE users SET name = ?,
-    email = ? WHERE user_id = ?");
+    email = ? WHERE users_id = ?");
     $stmt->execute([$name,$email,$users_id]);
 }
 ?>
