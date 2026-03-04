@@ -5,8 +5,6 @@ require 'delete.php';
 require 'select.php';
 ?>
 
-<h2>Simple PDO CRUD</h2>
-
 <?php
 
 // CHECK IF EDIT MODE
@@ -37,62 +35,96 @@ if (isset($_GET['edit'])) {
  </head>
  <body>
 
-<h3 ><?= $editUser ? 'Update User' : 'Add User' ?></h3>
+<div class="container py-5">
 
-<form method="POST">
-  <?php if (!empty($editUser)): ?>
+  <h2 class="text-center fw-bold mb-5">Simple PDO CRUD</h2>
 
-    <input type="hidden" name="users_id" value="<?= $editUser['users_id'] ?>">
-  <?php endif; ?>
-  <div class="input group mb-3"></div>
-      <label>Name:</label>
-        <span class="input-group-text" name="name"></span>
-          <input type="text" name="name" value="<?= !empty($editUser) ? $editUser['name'] : '' ?>" required><br>
-      </div>
-    <div class="input group mb-3">
-        <label type="text" class="form-control" placeholder="Email">Email:</label>
-          <input type="email" name="email" value="<?= !empty($editUser) ? $editUser['email'] : '' ?>" required><br>
-    </div>
-    <div class="input-group">
-  <span class="input-group-text"><strong>Product</strong></span>
-  <input type="text" name="product" placeholder="Product" required><br>
-  </div>
-  <div class="input-group mb-3">
-  <span class="input-group-text">$</span>
-  <input type="text" aria-label="Dollar amount" step="0.01" name="amount" placeholder="Amount" required><br>
-  </div>
+  <div class="row g-4">
+
+    <div class="col-lg-5 col-md-12">
+      <div class="card">
+        <div class="card-body p-4">
+
+          <h4 class="mb-4 text-primary">
+            <?= $editUser ? 'Update User' : 'Add New User' ?>
+          </h4>
+
+          <form method="POST">
+
+            <?php if (!empty($editUser)): ?>
+              <input type="hidden" name="users_id" value="<?= $editUser['users_id'] ?>">
+            <?php endif; ?>
+
+            <div class="mb-3">
+              <label class="form-label">Name</label>
+              <input type="text" name="name"
+                value="<?= $editUser['name'] ?? '' ?>"
+                class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" name="email"
+                value="<?= $editUser['email'] ?? '' ?>"
+                class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Product</label>
+              <input type="text" name="product"
+                value="<?= $editUser['product'] ?? '' ?>"
+                class="form-control" required>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label">Amount</label>
+              <input type="number" step="0.01" name="amount"
+                value="<?= $editUser['amount'] ?? '' ?>"
+                class="form-control" required>
+            </div>
+
 
   <!-- Submit buttons -->
 
   <?php if (!empty($editUser)): ?>
-
-    <button type="submit" name="update">Update</button>
-    <a href="landing.php">Cancel</a>
-
+    
+    <div class="d-grid gap-2"></div>
+    <button type="submit" name="update" class="btn btn-success">Update</button>
+    <a href="landing.php" class="btn btn-outline-secondary">Cancel</a>
+    </div>
   <?php else: ?>
-
-    <button type="submit" name="add">Add</button>
+    <div class="d-grid gap-2"></div>
+    <button type="submit" name="add" class="btn btn-success">Add</button>
+    </div>
 
   <?php endif; ?>
 
 </form>
-<hr>
+        </div>
+      </div>
+    </div>
+
 <!-- USER TABLE -->
-<h3 >User & Order List</h3>
-<table class="table">
-  <thead class="thead-dark">
+
+  <div class="col-lg-7 col-md-12">
+      <div class="card">
+        <div class="card-body p-4">
+           <h4 class="card-title mb-4 text-primary">User List</h4>
+             <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead>
     <tr>
-     <th scope="col">users_id</th>
-    <th scope="col">Name</th>
-    <th scope="col">Email</th>
-    <th scope="col">Product</th>
-    <th scope="col">Amount</th>
-    <th scope="col">Action</th>
-    </tr>
+    <th>users_id</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Product</th>
+    <th>Amount</th>
+    <th>Action</th>
+  </tr>
   </thead>
   <?php foreach ($users as $user): ?>
 
-  <tr>
+  
     <td><?= $user['users_id'] ?></td>
     <td><?= $user['name'] ?></td>
     <td><?= $user['email'] ?></td>
@@ -101,14 +133,18 @@ if (isset($_GET['edit'])) {
   
 
     <td>
-
-      <a href="?edit=<?= $user['users_id'] ?>">Edit</a> |
-      <a href="?delete=<?= $user['users_id'] ?>">Delete</a>
+      <a href="?edit=<?= $user['users_id'] ?>" class="btn btn-success btn-sm">Edit</a> |
+      <a href="?delete=<?= $user['users_id'] ?>" class="btn btn-danger btn-sm">Delete</a>
 
     </td>
   </tr>
   <?php endforeach; ?>
 </table>
-  
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
  </body>
  </html>
